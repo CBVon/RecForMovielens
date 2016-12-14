@@ -21,7 +21,7 @@ class SVD():
         self.userNum=self.getUserNum()  
         #get item number  
         self.itemNum=self.getItemNum()  
-        #learning rate  
+        #learning rate 
         self.learningRate=0.01  
         #the regularization lambda  
         self.regularization=0.05  
