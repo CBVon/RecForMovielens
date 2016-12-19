@@ -1,5 +1,7 @@
 ''''' 
 ref : http://blog.csdn.net/daer520/article/details/19929523
+k=1:0.933 0.874(abandoned)
+k=5:0.936 0.788
 '''  
 
 import random  
@@ -85,10 +87,18 @@ class SVD():
                 #update parameters bu and bi(user rating bais and item rating bais)  
                 self.bu[user]+=self.learningRate*(eui-self.regularization*self.bu[user])  
                 self.bi[item]+=self.learningRate*(eui-self.regularization*self.bi[item])  
-                for k in range(self.factorNum):    
+                for k in range(self.factorNum):  
+                    #temp=self.pu[user][k]  
                     #update pu,qi  
-                    self.pu[user][k]+=self.learningRate*(eui*self.qi[user][k]-self.regularization*self.pu[user][k])  
-                    self.qi[item][k]+=self.learningRate*(self.pu[user][k]*eui-self.regularization*self.qi[item][k]) 
+		    #temp = self.pu[user][k]
+                    #self.pu[user][k]+=self.learningRate*(eui*self.qi[user][k]-self.regularization*self.pu[user][k])  
+                    #(wrong)self.qi[item][k]+=self.learningRate*(self.pu[user][k]*eui-self.regularization*self.qi[item][k]) 
+		    #self.qi[item][k]+=self.learningRate*(temp*eui-self.regularization*self.qi[item][k])  
+
+		    temp = self.qi[item][k]
+		    self.qi[item][k]+=self.learningRate*(self.pu[user][k]*eui-self.regularization*self.qi[item][k])   
+                    #(wrong)sself.qi[item][k]+=self.learningRate*(self.pu[user][k]*eui-self.regularization*self.qi[item][k]) 
+		    self.pu[user][k]+=self.learningRate*(eui*temp-self.regularization*self.pu[user][k]) 
                 #print pscore,eui  
             #close the file  
             fi.close()  
@@ -151,17 +161,17 @@ class SVD():
         return pscore  
 
     def drawRmse(self):
-	#pl.figure('svd.png')
+	#pl.figure('svd-train.78.grad.png')
 	pl.ion()
 	x = range(len(self.arrRMSE_test))
 	pl.plot(x, self.arrRMSE_test, label = 'RMSE_test')
 	pl.plot(x, self.arrRMSE_train, label = 'RMSE_train')
 	pl.legend()
 	pl.show()
-	pl.savefig('svd.png')
+	pl.savefig('svd-train.78.grad.png')
 
     def resultToTxt(self):
-	f=open('./svd.result/svd.txt', "w") 
+	f=open('./svd.result/svd-train.78.grad.txt', "w") 
 	b1 = [str(x) + '\n' for x in self.arrRMSE_test]
 	b2 = [str(x) + '\n' for x in self.arrRMSE_train]
 	f.writelines(b1)

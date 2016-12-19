@@ -190,6 +190,15 @@ class SVD():
 	pl.legend()
 	pl.show()
 	pl.savefig('svd_init.png')
+
+    def resultToTxt(self):
+	f=open('./svd.result/svd_init.txt', "w") 
+	b1 = [str(x) + '\n' for x in self.arrRMSE_test]
+	b2 = [str(x) + '\n' for x in self.arrRMSE_train]
+	f.writelines(b1)
+	f.writelines(b2)
+	#f.writelines(self.arrRMSE_train)
+	f.close()
       
 if __name__=='__main__':  
     s=SVD("./movielens/u.data","./movielens/u1.base","./movielens/u1.test")  
@@ -197,6 +206,7 @@ if __name__=='__main__':
     #print s.average("data\\ua.base")  
     s.train()  
     s.drawRmse()
+    s.resultToTxt()
 
 
 
