@@ -1,6 +1,6 @@
 '''
 ref : http://blog.csdn.net/dark_scope/article/details/17228643
-0.931 0.821
+0.931 0.821 /itera 100 times : 0.93 0.78
 '''
 
 from __future__ import division
